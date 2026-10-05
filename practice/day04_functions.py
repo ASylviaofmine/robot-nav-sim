@@ -20,22 +20,17 @@ def double(x):
 print(double(5))     # 输出 10
 print()
 
-#Mission 4:
+#Mission 4: 造答案的机器（出货口交出一个 1~100 的随机数）
 import random
 
 def make_answer():
-    return random.randint(1, 1000)
+    return random.randint(1, 100)
 
-print(make_answer())
-
-
-#Mission 5：
+#Mission 5: 问猜数的机器（投料口是提示语，出货口交出整数）
 def ask_guess():
-        return int(input("猜一个 1~100 的数："))
+    return int(input("猜一个 1~100 的数："))
 
-print(ask_guess())
-
-#Mission 6：
+#Mission 6: 裁判机器（两个投料口，出货口交出判词）
 def judge(guess, answer):
     if guess > answer:
         return "bigger"
@@ -43,7 +38,18 @@ def judge(guess, answer):
         return "smaller"
     else:
         return "correct"
-print(judge(33, 50))
-print(judge(20, 50))
-print(judge(50, 50))
 
+#Mission 7: 主流程——把三台机器串成完整的游戏
+def play():
+    answer = make_answer()
+    count = 0
+    while True:
+        guess = ask_guess()
+        count = count + 1
+        hint = judge(guess, answer)
+        print(hint)
+        if hint == "correct":      # 暗号必须和 judge 里的完全一致
+            print(f"你一共猜了 {count} 次")
+            break
+
+play()                             # 按下总开关，游戏开始
