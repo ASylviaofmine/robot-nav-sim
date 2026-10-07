@@ -8,11 +8,11 @@ def ask_guess():
 
 def judge(guess, answer):
     if guess>answer:                # 空 1
-        return "大了"
+        return "bigger"
     elif guess<answer:              # 空 2
-        return "小了"
+        return "smaller"
     else:
-        return "对了"
+        return "correct"
 
 def play():
     answer = make_answer()
@@ -22,7 +22,7 @@ def play():
         count = count + 1
         hint = judge(guess, answer)
         print(hint)
-        if hint == "对了":
+        if hint == "correct":
             print(f"你一共猜了 {count} 次")
             break
 
