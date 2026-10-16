@@ -232,7 +232,7 @@ def main():
         pygame.display.flip()
 
         # (d) 限速：不加这行，循环全速狂奔，动画一瞬间就播完了
-   #     clock.tick(FPS)                                          # 空 4：让循环最多每秒跑 FPS 次
+        clock.tick(FPS)                                          # 空 4：让循环最多每秒跑 FPS 次
 
     pygame.quit()
     print("[anim] 窗口已关闭")
