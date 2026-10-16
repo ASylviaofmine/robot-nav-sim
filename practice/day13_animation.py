@@ -138,7 +138,7 @@ def world_to_screen(x, y):
     py 应该是：先把 y 翻转（SIZE - y），再乘 CELL 加 MARGIN。
     """
     px = MARGIN + x * CELL
-    py = MARGIN + ______________________________               # 空 1：把 y 翻转后缩放
+    py = MARGIN + (SIZE-y)*CELL               # 空 1：把 y 翻转后缩放
     return (int(round(px)), int(round(py)))
 
 
@@ -178,7 +178,7 @@ def draw(screen, grid, path, start, goal, traj, thetas, k):
     # ---- 3. 小车走过的轨迹：只画前 k 个点，所以每帧都"长"一点 ----
     # 列表推导式 + 切片：把轨迹的前 k 个点挨个转成屏幕坐标
     if k > 1:
-        walked = [world_to_screen(px, py) for px, py in ____________]   # 空 2：用切片取出轨迹的前 k 个点
+        walked = [world_to_screen(px, py) for px, py in traj[:k] ]   # 空 2：用切片取出轨迹的前 k 个点
         pygame.draw.lines(screen, TRAIL, False, walked, 3)
 
     # ---- 4. 起点 / 终点标记 ----
@@ -225,14 +225,14 @@ def main():
 
         # (b) 更新状态：让动画前进一个采样点
         if k < len(traj):
-            k = ______                                             # 空 3：每帧前进一步
+            k = k+1                                             # 空 3：每帧前进一步
 
         # (c) 重绘：把新的画面整个画一遍，再"翻"到屏幕上
         draw(screen, g, path, start, goal, traj, thetas, k)
         pygame.display.flip()
 
         # (d) 限速：不加这行，循环全速狂奔，动画一瞬间就播完了
-        ________________                                          # 空 4：让循环最多每秒跑 FPS 次
+   #     clock.tick(FPS)                                          # 空 4：让循环最多每秒跑 FPS 次
 
     pygame.quit()
     print("[anim] 窗口已关闭")
