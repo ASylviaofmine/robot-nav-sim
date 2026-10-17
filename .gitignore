@@ -1,0 +1,11 @@
+# 虚拟环境与 IDE
+.venv/
+.idea/
+.workbuddy/
+
+# Python 缓存
+__pycache__/
+*.pyc
+
+# D14 录制时产生的中间帧（只提交合成好的 demo.gif）
+docs/frames/
