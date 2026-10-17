@@ -2,7 +2,11 @@
 
 **A 2D mobile-robot autonomous navigation simulator — grid path planning and feedback control, implemented from scratch.**
 
-Status: 🚧 in development — the planning, control and tracking core works and is measured (see [Measured results](#measured-results)); the real-time viewer and the packaging into a single demo are still open.
+Status: 🚧 in development — planning, control and tracking work and are measured; a recorded run can be replayed in a Pygame window and exported as the GIF above. Packaging everything behind a single `python main.py` is the remaining step.
+
+![A* planning and go-to-goal tracking](docs/demo.gif)
+
+*One complete run, recorded by `practice/day14_record.py`: A\* plans the route (blue), the go-to-goal controller drives the robot along it (red trail, green robot with heading), on a 10×10 grid with a wall that has to be routed around.*
 
 ---
 
@@ -27,7 +31,7 @@ The robot is not teleoperated and nothing is scripted: the program computes a co
                 └──► measured: time, distance, end-point error, cross-track error
 
       ┌───────────────────┐
-      │  Pygame viewer    │  ← planned next
+      │  Pygame viewer    │  ← replays one run, frame by frame
       └───────────────────┘
 ```
 
@@ -45,6 +49,7 @@ The robot is not teleoperated and nothing is scripted: the program computes a co
 | `tools/benchmark.py` | Planner benchmark: path length, nodes expanded, runtime, success rate, heuristic comparison, plus a BFS ground-truth check. |
 | `tools/pid_tuning.py` | Turns four PID parameter sets into measurable metrics (error, overshoot, rise/settling time). |
 | `tools/tracking_metrics.py` | Closed-loop benchmark: plans, drives, then measures time / distance / end-point error / cross-track error, and sweeps `tol`, `speed` and `Kp` one at a time. Also writes `docs/tracking_sensitivity.png`. |
+| `docs/` | `demo.gif` (one recorded run, shown at the top) and `tracking_sensitivity.png` (the parameter sweeps). |
 | `main.py` | Entry point — currently a placeholder while the pieces are still separate. |
 | `requirements.txt`, `LICENSE`, `README.md` | Environment, licence, documentation. |
 
@@ -186,11 +191,12 @@ A sampling-based planner is planned as a comparison baseline on identical maps �
 | Python | 3.13.15 |
 | NumPy | 2.5.3 |
 | Matplotlib | 3.11.2 |
-| Pygame | not installed yet — required for the planned real-time viewer |
+| Pygame | 2.6.1 |
+| Pillow | 12.3.0 (GIF composition) |
 | Git | 2.55.0 |
 | OS tested on | Windows (x64) |
 
-`requirements.txt` lists the dependencies; `pygame` is included in advance for the viewer milestone.
+`requirements.txt` lists the dependencies.
 
 ## Usage
 
@@ -220,6 +226,21 @@ python practice/day11_tracking.py
 # 终点误差 0.039
 ```
 
+Real-time viewer — replays one recorded run in a Pygame window (press `R` to replay, close the window to quit):
+
+```bash
+python practice/day13_animation.py
+# [world] 路径 17 格 / 16 步，轨迹 641 个采样点，用时 32.00 s
+```
+
+Record the GIF shown at the top of this page (off-screen rendering, no window pops up):
+
+```bash
+python practice/day14_record.py
+# 抽帧完成：214 张（每 3 帧取 1 张）
+# GIF 已生成：<repo>/docs/demo.gif  0.61 MB  10.7 秒
+```
+
 Reproduce the measurements in this README:
 
 ```bash
@@ -228,7 +249,7 @@ python tools/pid_tuning.py         # control: PID metrics table
 python tools/tracking_metrics.py   # closed loop: tracking error + tol/speed/Kp sweeps
 ```
 
-All three scripts are deterministic (fixed seed 42 for the random maps) and print Markdown tables, so the numbers above can be regenerated and compared.
+All four scripts are deterministic (fixed seed 42 for the random maps) and print Markdown tables, so the numbers above can be regenerated and compared.
 
 ## Measured results
 
@@ -261,17 +282,17 @@ Done:
 - [x] English README with problem statement, algorithm rationale, complexity, environment, usage and measured results
 - [x] **Closed the plan-and-drive loop**: the A\* route is converted to waypoints and driven by the go-to-goal controller, with heading-wrap and waypoint-advance failure modes found and measured (Day 11)
 - [x] **Tracking-error metrics**: cross-track error against the planned polyline, plus measured `tol` / `speed` / `Kp` sensitivity sweeps (Day 12)
+- [x] **Pygame viewer**: replays a recorded run frame by frame — map, planned path, growing trail, robot with heading line, progress bar (Day 13)
+- [x] **GIF export**: off-screen rendering to PNG frames, then composition with PIL; 641 samples decimated to 214 frames at 480 px / 128 colours → 0.61 MB (Day 14)
 
 Open:
 
-- [ ] Real-time visualization of map, start, goal, planned path and robot trail (Pygame window; the visualization today is static Matplotlib)
 - [ ] Planner refactor into `src/` with a stable interface, so planning and control share one map model
 - [ ] End-to-end demo: `python main.py` plans a route and drives the robot along it
 - [ ] RRT / RRT* comparison on identical maps, same benchmark table
 - [ ] Path smoothing / shortcutting for smoother tracking, with the effect measured
 - [ ] Model the robot as a true differential drive (wheel speeds, non-holonomic constraint) instead of the current unicycle model
 - [ ] Automated tests instead of print-based checks
-- [ ] Animated GIF / short video of a run, for the README
 - [ ] A short technical report: assumptions, parameter choices, limitations
 
 ## Limitations
@@ -287,11 +308,10 @@ Open:
 
 ## Next steps
 
-1. Consolidate the algorithms into a small `src/` package with tests.
-2. Add the Pygame viewer for map, obstacles, path, robot pose and travelled trail; export an animated GIF. *(The loop itself is closed as of §4; this is the presentation step.)*
-3. Add RRT to the same benchmark and report the comparison honestly.
-4. Simulate the robot as a real differential drive (wheel speeds, non-holonomic constraints) and re-tune the controller.
-5. Add path smoothing (shortcutting) and measure whether it improves the cross-track error reported in §4.
+1. Consolidate the algorithms into a small `src/` package with tests, and wire them behind `python main.py`.
+2. Add RRT to the same benchmark and report the comparison honestly.
+3. Simulate the robot as a real differential drive (wheel speeds, non-holonomic constraints) and re-tune the controller.
+4. Add path smoothing (shortcutting) and measure whether it improves the cross-track error reported in §4.
 
 ## License
 

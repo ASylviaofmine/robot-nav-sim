@@ -48,8 +48,16 @@ GIF_SIZE = 480            # 合成时边长缩放到 480 像素
 GIF_COLORS = 128          # GIF 最多 256 色，这里用 128 色再省一半体积
 FRAME_MS = 50             # 每帧显示 50 毫秒 → 214 帧 × 50ms ≈ 10.7 秒
 
-FRAME_DIR = "docs/frames"     # 中间产物，存完就删，不进 Git
-OUT_GIF = "docs/demo.gif"     # 最终交付物
+# 路径必须以"脚本位置"为准，不能依赖"你在哪个文件夹里运行"：
+#   __file__        当前文件（practice/day14_record.py）
+#   abspath(...)    转成绝对路径
+#   dirname(...)    取所在目录 → practice/
+#   再 dirname 一次  → 项目根目录
+# 少了这一步，在 PyCharm 里跑（工作目录是 practice/）就会把图存到 practice/docs/ 里。
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+FRAME_DIR = os.path.join(BASE_DIR, "docs", "frames")   # 中间产物，存完就删，不进 Git
+OUT_GIF = os.path.join(BASE_DIR, "docs", "demo.gif")   # 最终交付物
 
 
 def record():
@@ -66,8 +74,8 @@ def record():
     for k in range(1, len(traj) + 1):
         d13.draw(canvas, g, path, start, goal, traj, thetas, k)
 
-        if ______________:                                    # 空 1：什么时候存这一帧？
-            name = os.path.join(FRAME_DIR, ______________)     # 空 2：这一帧的文件名
+        if (k - 1) % EVERY == 0:                                    # 空 1：什么时候存这一帧？
+            name = os.path.join(FRAME_DIR, f"frame_{saved:04d}.png")     # 空 2：这一帧的文件名
             pygame.image.save(canvas, name)
             saved = saved + 1
 
@@ -88,7 +96,7 @@ def to_gif(n):
     frames[0].save(
         OUT_GIF,
         save_all=True,
-        append_images=______________,       # 空 3：除了第一帧，还要追加哪些？
+        append_images=frames[1:],       # 空 3：除了第一帧，还要追加哪些？
         duration=FRAME_MS,
         loop=0,
         optimize=True,
