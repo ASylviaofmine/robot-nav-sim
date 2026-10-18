@@ -16,7 +16,7 @@ import argparse
 import os
 
 from src.simulation import build_world, describe
-from src.viewer import ______________            # 空 1：从 viewer 导入哪两个函数？
+from src.viewer import play,record_gif            # 空 1：从 viewer 导入哪两个函数？
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
@@ -43,11 +43,11 @@ def main():
 
     # 2. 决定这次怎么展示
     if args.gif:
-        frames, nbytes = ______________          # 空 2：录 GIF，存到 args.out
+        frames, nbytes = record_gif(world,args.out)          # 空 2：录 GIF，存到 args.out
         print(f"GIF: {args.out}  {frames} frames  {nbytes / 1024 / 1024:.2f} MB")
     else:
-        ______________                           # 空 3：开窗口播放
+        play(world)                           # 空 3：开窗口播放
 
 
-if ____________:                                 # 空 4
+if __name__ == "__main__":                       # 空 4
     main()
