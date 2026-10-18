@@ -11,6 +11,9 @@ import math
 import os
 import tempfile
 
+# 屏蔽 pygame 首次运行时的问候语（那行带 pygame.org 链接的输出）
+os.environ.setdefault("PYGAME_HIDE_SUPPORT_PROMPT", "1")
+
 import pygame
 
 from src.grid import cell_to_world
