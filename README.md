@@ -45,15 +45,20 @@ The robot is not teleoperated and nothing is scripted: the program computes a co
 
 | Path | Contents |
 |---|---|
-| `practice/` | Daily implementations (`dayNN_*.py`), one file per learning step. Kept on purpose: the Git history of this folder is the build-up order of the project. |
+| `src/grid.py` | The `Grid` map (free/wall cells, out-of-bounds treated as wall) and cell↔world coordinate conversion. Depends on nothing. |
+| `src/planner.py` | A\* search with a Manhattan heuristic; returns `None` when the goal is unreachable. Depends only on `grid`. |
+| `src/controller.py` | Waypoint-tracking controller (go-to-goal proportional heading control with angle wrapping). Works on plain coordinate lists — it does not even import `grid`. |
+| `src/simulation.py` | `build_world()`: assembles one complete run (map → plan → track) and returns its data as a dict. |
+| `src/viewer.py` | `play()` opens a Pygame window that replays a run; `record_gif()` renders off-screen and composes the GIF with Pillow. |
+| `main.py` | Entry point. Parses `--gif / --tol / --speed / --kp / --out` and calls into `src/` — it assembles, it implements nothing. |
+| `practice/` | Daily implementations (`dayNN_*.py`), one file per learning step. Kept on purpose: the Git history of this folder is the build-up order of the project; `src/` is the consolidated version of the same algorithms. |
 | `tools/benchmark.py` | Planner benchmark: path length, nodes expanded, runtime, success rate, heuristic comparison, plus a BFS ground-truth check. |
 | `tools/pid_tuning.py` | Turns four PID parameter sets into measurable metrics (error, overshoot, rise/settling time). |
 | `tools/tracking_metrics.py` | Closed-loop benchmark: plans, drives, then measures time / distance / end-point error / cross-track error, and sweeps `tol`, `speed` and `Kp` one at a time. Also writes `docs/tracking_sensitivity.png`. |
 | `docs/` | `demo.gif` (one recorded run, shown at the top) and `tracking_sensitivity.png` (the parameter sweeps). |
-| `main.py` | Entry point — currently a placeholder while the pieces are still separate. |
 | `requirements.txt`, `LICENSE`, `README.md` | Environment, licence, documentation. |
 
-> The algorithms currently live in `practice/` (indexed by day). Consolidating them into a proper `src/` package with stable interfaces is on the roadmap; until then this README describes exactly what exists today.
+> The dependency direction is one-way: `grid` ← `planner` ← `simulation` → `viewer`, and `controller` depends on nothing but NumPy. Swapping the planner (e.g. adding RRT) would not touch any other module. `practice/` keeps the original day-by-day files as a record of how the code was built; `src/` is the consolidated implementation.
 
 ## Algorithms
 
@@ -211,6 +216,22 @@ python -m venv .venv
 pip install -r requirements.txt
 ```
 
+Run the whole pipeline with one command — plan a route, drive the robot along it, and open a replay window:
+
+```bash
+python main.py
+# path 17 cells / 16 steps, trajectory 641 samples, time 32.00 s
+```
+
+The same run without a window, recorded straight to GIF, or with different controller parameters:
+
+```bash
+python main.py --gif               # no window; writes docs/demo.gif
+python main.py --tol 0.2           # looser waypoint tolerance
+python main.py --gif --speed 1.0   # twice the speed
+python main.py --help              # all flags
+```
+
 Planner demo — draws a 10×10 map with a wall and the path found by A\* (Matplotlib window):
 
 ```bash
@@ -284,11 +305,12 @@ Done:
 - [x] **Tracking-error metrics**: cross-track error against the planned polyline, plus measured `tol` / `speed` / `Kp` sensitivity sweeps (Day 12)
 - [x] **Pygame viewer**: replays a recorded run frame by frame — map, planned path, growing trail, robot with heading line, progress bar (Day 13)
 - [x] **GIF export**: off-screen rendering to PNG frames, then composition with PIL; 641 samples decimated to 214 frames at 480 px / 128 colours → 0.61 MB (Day 14)
+- [x] **Consolidated `src/` package** with one-way dependencies (`grid` / `planner` / `controller` / `simulation` / `viewer`), verified byte-identical to the pre-refactor GIF (Day 15)
+- [x] **End-to-end entry point**: `python main.py` plans a route and drives the robot along it; `--gif`, `--tol`, `--speed`, `--kp` flags for headless recording and parameter experiments (Day 15)
 
 Open:
 
-- [ ] Planner refactor into `src/` with a stable interface, so planning and control share one map model
-- [ ] End-to-end demo: `python main.py` plans a route and drives the robot along it
+- [ ] Add automated tests against the `src/` package
 - [ ] RRT / RRT* comparison on identical maps, same benchmark table
 - [ ] Path smoothing / shortcutting for smoother tracking, with the effect measured
 - [ ] Model the robot as a true differential drive (wheel speeds, non-holonomic constraint) instead of the current unicycle model
@@ -308,7 +330,7 @@ Open:
 
 ## Next steps
 
-1. Consolidate the algorithms into a small `src/` package with tests, and wire them behind `python main.py`.
+1. Add automated tests against the `src/` package.
 2. Add RRT to the same benchmark and report the comparison honestly.
 3. Simulate the robot as a real differential drive (wheel speeds, non-holonomic constraints) and re-tune the controller.
 4. Add path smoothing (shortcutting) and measure whether it improves the cross-track error reported in §4.
