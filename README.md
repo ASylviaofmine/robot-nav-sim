@@ -2,11 +2,11 @@
 
 **A 2D mobile-robot autonomous navigation simulator — grid path planning and feedback control, implemented from scratch.**
 
-Status: 🚧 in development — planning, control and tracking work and are measured; a recorded run can be replayed in a Pygame window and exported as the GIF above. Packaging everything behind a single `python main.py` is the remaining step.
+Status: 🟢 **core complete** — planning, control, tracking, real-time replay, GIF export and a single `python main.py` entry point all work and are measured. Remaining: a short technical report and an RRT comparison.
 
 ![A* planning and go-to-goal tracking](docs/demo.gif)
 
-*One complete run, recorded by `practice/day14_record.py`: A\* plans the route (blue), the go-to-goal controller drives the robot along it (red trail, green robot with heading), on a 10×10 grid with a wall that has to be routed around.*
+*One complete run, recorded with `python main.py --gif`: A\* plans the route (blue), the go-to-goal controller drives the robot along it (red trail, green robot with heading), on a 10×10 grid with a wall that has to be routed around.*
 
 ---
 
@@ -291,22 +291,22 @@ Not yet measured (and therefore not claimed): path smoothness after the planned 
 
 ## Roadmap
 
-Done:
+Done *(Day 1 = 27 Sep 2026, Day 15 = 18 Oct 2026 — 15 working days spread over three weeks)*:
 
-- [x] Project setup: Python + Git + GitHub, repo layout, licence, README (Day 1)
-- [x] Data handling and map representation: lists/dicts, NumPy grids, Matplotlib heatmap of the map (Days 5–6)
-- [x] Map as an object (`Grid`): free / wall cells, bounds checking (Day 7)
-- [x] PID controller + DC-motor position simulation, with a tuning comparison (Day 8)
-- [x] 2D heading control on a differential-drive model (go-to-goal) (Day 9)
-- [x] A* grid planner with path reconstruction, plus a reproducible benchmark and BFS cross-check (Day 10)
-- [x] Heuristic comparison (Manhattan vs Euclidean vs none) and heuristic-weight sweep, measured on identical maps
-- [x] English README with problem statement, algorithm rationale, complexity, environment, usage and measured results
-- [x] **Closed the plan-and-drive loop**: the A\* route is converted to waypoints and driven by the go-to-goal controller, with heading-wrap and waypoint-advance failure modes found and measured (Day 11)
-- [x] **Tracking-error metrics**: cross-track error against the planned polyline, plus measured `tol` / `speed` / `Kp` sensitivity sweeps (Day 12)
-- [x] **Pygame viewer**: replays a recorded run frame by frame — map, planned path, growing trail, robot with heading line, progress bar (Day 13)
-- [x] **GIF export**: off-screen rendering to PNG frames, then composition with PIL; 641 samples decimated to 214 frames at 480 px / 128 colours → 0.61 MB (Day 14)
-- [x] **Consolidated `src/` package** with one-way dependencies (`grid` / `planner` / `controller` / `simulation` / `viewer`), verified byte-identical to the pre-refactor GIF (Day 15)
-- [x] **End-to-end entry point**: `python main.py` plans a route and drives the robot along it; `--gif`, `--tol`, `--speed`, `--kp` flags for headless recording and parameter experiments (Day 15)
+- [x] Project setup: Python + Git + GitHub, repo layout, licence, README (Day 1 · 27 Sep)
+- [x] Data handling and map representation: lists/dicts, NumPy grids, Matplotlib heatmap of the map (Days 5–6 · 07 and 09 Oct)
+- [x] Map as an object (`Grid`): free / wall cells, bounds checking (Day 7 · 10 Oct)
+- [x] PID controller + DC-motor position simulation, with a tuning comparison (Day 8 · 11 Oct)
+- [x] 2D heading control on a differential-drive model (go-to-goal) (Day 9 · 12 Oct)
+- [x] A* grid planner with path reconstruction, plus a reproducible benchmark and BFS cross-check (Day 10 · 13 Oct)
+- [x] Heuristic comparison (Manhattan vs Euclidean vs none) and heuristic-weight sweep, measured on identical maps (13 Oct)
+- [x] English README with problem statement, algorithm rationale, complexity, environment, usage and measured results (13 Oct)
+- [x] **Closed the plan-and-drive loop**: the A\* route is converted to waypoints and driven by the go-to-goal controller, with heading-wrap and waypoint-advance failure modes found and measured (Day 11 · 14 Oct)
+- [x] **Tracking-error metrics**: cross-track error against the planned polyline, plus measured `tol` / `speed` / `Kp` sensitivity sweeps (Day 12 · 15 Oct)
+- [x] **Pygame viewer**: replays a recorded run frame by frame — map, planned path, growing trail, robot with heading line, progress bar (Day 13 · 16 Oct)
+- [x] **GIF export**: off-screen rendering to PNG frames, then composition with PIL; 641 samples decimated to 214 frames at 480 px / 128 colours → 0.61 MB (Day 14 · 17 Oct)
+- [x] **Consolidated `src/` package** with one-way dependencies (`grid` / `planner` / `controller` / `simulation` / `viewer`), verified byte-identical to the pre-refactor GIF (Day 15 · 18 Oct)
+- [x] **End-to-end entry point**: `python main.py` plans a route and drives the robot along it; `--gif`, `--tol`, `--speed`, `--kp` flags for headless recording and parameter experiments (Day 15 · 18 Oct)
 
 Open:
 
