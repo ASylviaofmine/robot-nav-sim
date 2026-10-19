@@ -4,19 +4,19 @@
 <meta charset="utf-8" data-page-node-id="hpPxlAOQUOaOXZBx3ABppE">
 <title>A 2D Mobile-Robot Navigation Simulator</title>
 <style>
-  @page { size: A4; margin: 14mm 17mm 13mm 17mm; }
+  @page { size: A4; margin: 12mm 16mm 11mm 16mm; }
   * { box-sizing: border-box; }
   body {
     font-family: "Times New Roman", Georgia, serif;
-    font-size: 9.3pt; line-height: 1.35; color: #1b1b1b; margin: 0;
+    font-size: 9.3pt; line-height: 1.24; color: #1b1b1b; margin: 0;
   }
   h1 { font-size: 14.5pt; line-height: 1.22; margin: 0 0 4pt; font-weight: 600; }
   .byline { font-size: 8.8pt; color: #555; margin: 0 0 2.5pt; }
   .repo { font-size: 8.4pt; color: #666; margin: 0 0 9pt; font-family: Consolas, monospace; }
-  h2 { font-size: 10.2pt; margin: 9pt 0 3pt; font-weight: 600;
+  h2 { font-size: 10.2pt; margin: 7.5pt 0 2.5pt; font-weight: 600;
        border-bottom: 0.6pt solid #c9c9c4; padding-bottom: 1.5pt; }
   h3 { font-size: 9.4pt; margin: 6.5pt 0 2pt; font-weight: 600; font-style: italic; }
-  p { margin: 0 0 4pt; text-align: justify; }
+  p { margin: 0 0 3pt; text-align: justify; }
   code { font-family: Consolas, monospace; font-size: 8.4pt; background: #f2f2ee; padding: 0 2px; }
   .abstract { background: #f6f6f2; border-left: 2.5pt solid #9a9a90;
               padding: 6pt 8pt; margin: 0 0 8pt; font-size: 8.9pt; text-align: justify; }
@@ -30,7 +30,7 @@
   td.num, th.num { text-align: right; }
   figure { margin: 5pt 0 6pt; text-align: center; }
   figcaption { font-size: 8.0pt; color: #4a4a4a; margin-top: 2.5pt; text-align: left; }
-  .fig1 { float: right; width: 37%; margin: 2pt 0 5pt 9pt; }
+  .fig1 { float: right; width: 29%; margin: 2pt 0 5pt 8pt; }
   ul { margin: 2pt 0 4pt; padding-left: 13pt; }
   li { margin-bottom: 1.5pt; text-align: justify; }
   .refs { font-size: 8.1pt; }
@@ -109,7 +109,7 @@ length equals the optimum found by an independent breadth-first search.</caption
 </table>
 
 <figure class="fig1" data-page-node-id="PQuTlSH0DTGbzWh7kNbOz2">
-  <img src="report/figure1_run.png" style="width:100%" data-page-node-id="McBsg1vgxBUinpBujvv1EQ">
+  <img src="figure1_run.png" style="width:100%" data-page-node-id="McBsg1vgxBUinpBujvv1EQ">
   <figcaption data-page-node-id="SOcBxSiDIP2jsui1nkise3"><b data-page-node-id="XCq0IFyjiUVfMTfxlUo7Qh">Figure 1.</b> One complete run. Blue: the A* route. Red: the trajectory the
   controller actually drove. The two coincide to within 0.09 m, and no cell of the wall is entered.</figcaption>
 </figure>
@@ -159,7 +159,7 @@ K<sub data-page-node-id="QJyRkoFmOiLM80mSWEspi5">p</sub> = 5). Loosening the tol
 </table>
 
 <figure data-page-node-id="7MnCm5VgbNmnP04bCRYgYR">
-  <img src="report/figure2_sensitivity.png" style="width:100%" data-page-node-id="xQgTr05kfyuXV5Kyvx6OoN">
+  <img src="figure2_sensitivity.png" style="width:64%; display:block; margin:0 auto" data-page-node-id="xQgTr05kfyuXV5Kyvx6OoN">
   <figcaption data-page-node-id="4nvgABGBWwBhXKRYMXPEiZ"><b data-page-node-id="ZOAFhgUMqgmCbNjW9I933i">Figure 2.</b> Each controller parameter swept in isolation. Raising the heading gain
   from K<sub data-page-node-id="IqJGKgUm0pAkELheWhDhtI">p</sub> = 5 to 12 cuts maximum cross-track error from 0.090 m to 0.023 m at essentially no
   time cost (32.00 → 31.75 s). Speed trades accuracy for time directly: 0.5 → 1.5 m/s shortens the run
