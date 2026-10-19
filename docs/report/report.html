@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="utf-8">
+<html lang="en" data-page-node-id="ad6fBpMGpcVqVQbG3NwVNc">
+<head data-page-node-id="pEtuEaOHOocBoFCstfTNjs">
+<meta charset="utf-8" data-page-node-id="hpPxlAOQUOaOXZBx3ABppE">
 <title>A 2D Mobile-Robot Navigation Simulator</title>
 <style>
   @page { size: A4; margin: 14mm 17mm 13mm 17mm; }
@@ -37,14 +37,14 @@
   .refs li { margin-bottom: 2pt; }
 </style>
 </head>
-<body>
+<body data-page-node-id="yI7Gh1PQLikWUX4IHAnQSU">
 
-<h1>A 2D Mobile-Robot Navigation Simulator:<br>Grid Planning and Feedback Control Implemented from Scratch</h1>
-<p class="byline">[Your name] · Department of Automation · October 2026</p>
-<p class="repo">Code: github.com/ASylviaofmine/robot-nav-sim</p>
+<h1 data-page-node-id="Fqmv5Zd5TkCK3Cq435w4Lc">A 2D Mobile-Robot Navigation Simulator:<br data-page-node-id="uCx3KnrtWi2fmvJ9YCTvrn">Grid Planning and Feedback Control Implemented from Scratch</h1>
+<p class="byline" data-page-node-id="rWaDUsXu3jEPywPn21PXGT">Haiyu Li · Department of Automation, Jinling Institute of Technology · October 2026</p>
+<p class="repo" data-page-node-id="niAMCgU4yjyoflmwTPQ3cX">Code: github.com/ASylviaofmine/robot-nav-sim</p>
 
-<div class="abstract">
-<b>Abstract.</b> This report describes a navigation stack for a planar mobile robot, written from
+<div class="abstract" data-page-node-id="ntAZlYF2EXAUWQwORN3dpz">
+<b data-page-node-id="wrOS2LFcccDv1ebo8JSFoe">Abstract.</b> This report describes a navigation stack for a planar mobile robot, written from
 scratch in Python with no robotics framework. A grid map is searched with A* under a Manhattan
 heuristic, and the resulting waypoints are followed by a proportional go-to-goal controller. Rather
 than asserting that the system works, every claim is measured: the planner is cross-checked against
@@ -55,8 +55,8 @@ sweep over three controller parameters. Two failure modes encountered during dev
 heading wrap-around and waypoint skipping — are documented with their measured consequences.
 </div>
 
-<h2>1. Introduction</h2>
-<p>Given a map with obstacles, a start pose and a goal pose, a mobile robot must produce a
+<h2 data-page-node-id="rHUS19NUVMLJCpa7rY1h6D">1. Introduction</h2>
+<p data-page-node-id="ZeeWijDg62B9AEsHtqloGz">Given a map with obstacles, a start pose and a goal pose, a mobile robot must produce a
 collision-free route and then execute it. The problem decomposes into planning (a discrete search
 over the map) and control (a continuous feedback law that keeps the robot on the planned route).
 This project implements both, plus the visualization needed to inspect what happened. The constraint
@@ -64,137 +64,137 @@ that shaped every decision was to avoid a robotics framework: a framework would 
 working demo but no understanding, and it would have hidden the two failure modes reported in
 §4.3 — exactly the kind of defect that writing the loop by hand exposes.</p>
 
-<h2>2. System architecture</h2>
-<p>The code is organized as five modules with strictly one-way dependencies: <code>grid</code> (map
-representation and cell/world coordinate conversion) → <code>planner</code> (A*) →
-<code>simulation</code> (assembles one complete run) → <code>viewer</code> (Pygame window and GIF
-export). <code>controller</code> depends on nothing but NumPy: it accepts a list of waypoints and
+<h2 data-page-node-id="4qytSUBnOHZ4gTDaRbMHuT">2. System architecture</h2>
+<p data-page-node-id="DLHAwEHnmKCScLom145Ex6">The code is organized as five modules with strictly one-way dependencies: <code data-page-node-id="3h0aPyJDj7MozFcrHYMMEB">grid</code> (map
+representation and cell/world coordinate conversion) → <code data-page-node-id="Wv6EzN2fdYCVYaUTKGVhE9">planner</code> (A*) →
+<code data-page-node-id="FyLNUbLyz0VUfm9oUZQmxw">simulation</code> (assembles one complete run) → <code data-page-node-id="S5SRcE6d8Edgj09Vex2jAL">viewer</code> (Pygame window and GIF
+export). <code data-page-node-id="zJq3jbIHxfxV1NvgVmC4Ez">controller</code> depends on nothing but NumPy: it accepts a list of waypoints and
 never imports the map, so replacing the planner with a sampling-based method would not touch it.
-A single entry point, <code>python main.py</code>, wires the modules together.</p>
+A single entry point, <code data-page-node-id="zxvuqs2u0sL1aCio9PACdO">python main.py</code>, wires the modules together.</p>
 
-<h2>3. Methods</h2>
-<h3>3.1 Planning: A* on a four-connected grid</h3>
-<p>A* expands nodes in order of <code>f(n) = g(n) + h(n)</code>, where <code>g</code> is the cost
-already paid and <code>h</code> estimates the remaining cost. With unit step costs and a Manhattan
-heuristic <code>h = |Δr| + |Δc|</code>, <code>h</code> never overestimates the true remaining steps —
+<h2 data-page-node-id="CGbpQhTP7AImsJ7wqkYcAX">3. Methods</h2>
+<h3 data-page-node-id="h5vRLGz1MLZ6ROBGivZfR2">3.1 Planning: A* on a four-connected grid</h3>
+<p data-page-node-id="eW64SbjErOXhIWrkmQZ8bi">A* expands nodes in order of <code data-page-node-id="Og3JJUtayG5OFvVZ0ZuL1Q">f(n) = g(n) + h(n)</code>, where <code data-page-node-id="w8j2xurn0TCCvVCk4L2pjd">g</code> is the cost
+already paid and <code data-page-node-id="2ICgwRHute4W769i0Eb0Ff">h</code> estimates the remaining cost. With unit step costs and a Manhattan
+heuristic <code data-page-node-id="5sfp5jGgaCehQLhvTnkL1G">h = |Δr| + |Δc|</code>, <code data-page-node-id="K5knqDwwEio7rJK0jPl10v">h</code> never overestimates the true remaining steps —
 it is admissible — so the first time the goal is expanded, the path is optimal. The search is
-<code>O(N log N)</code> in the number of cells for the heap operations. Out-of-bounds neighbours are
+<code data-page-node-id="NQURdCCRiRLFyKE3xfNDOi">O(N log N)</code> in the number of cells for the heap operations. Out-of-bounds neighbours are
 treated as walls, which removes boundary checks from the inner loop.</p>
 
-<h3>3.2 Control: proportional go-to-goal with heading wrapping</h3>
-<p>At each step the controller computes the bearing to the current waypoint,
-<code>θ* = atan2(Δy, Δx)</code>, the heading error <code>e = θ* − θ</code>, and applies
-<code>θ ← θ + K<sub>p</sub> e Δt</code> before advancing along the new heading. The error is first
-wrapped into <code>(−π, π]</code>. Without wrapping, the accumulated heading grows without bound and
+<h3 data-page-node-id="ZNwMdxQ5wwyiYgqWkPOzOx">3.2 Control: proportional go-to-goal with heading wrapping</h3>
+<p data-page-node-id="8SAF8qdQH4bbHQz1XdfzBR">At each step the controller computes the bearing to the current waypoint,
+<code data-page-node-id="lRTogzRqZ3gofViUFGheM7">θ* = atan2(Δy, Δx)</code>, the heading error <code data-page-node-id="tX0Zv6hGyCYsbYNttKHpdG">e = θ* − θ</code>, and applies
+<code data-page-node-id="7LFEHH0wnFFnvtB690E60h">θ ← θ + K<sub data-page-node-id="pFE1IY2KBp0EyYkTrlOKVn">p</sub> e Δt</code> before advancing along the new heading. The error is first
+wrapped into <code data-page-node-id="QKnO3xTPz5X0b8UtjI7jrm">(−π, π]</code>. Without wrapping, the accumulated heading grows without bound and
 the correction saturates; the robot circles a waypoint indefinitely (measured: 100 m travelled, 4 of
 17 waypoints reached). A waypoint is considered reached when the distance falls below a tolerance
-<code>tol</code>, at which point the index advances by exactly one.</p>
+<code data-page-node-id="AgGCZwiz83OulEOHiIOEEu">tol</code>, at which point the index advances by exactly one.</p>
 
-<h2>4. Results</h2>
-<p>All figures below are produced by scripts in the repository and can be regenerated with a single
+<h2 data-page-node-id="vWM8HWnBp6Kq44K3Fi0YbG">4. Results</h2>
+<p data-page-node-id="LFF3OPEMIkx7mfffICiEB9">All figures below are produced by scripts in the repository and can be regenerated with a single
 command; runtimes are medians over repeated runs on one Windows machine and are indicative only.</p>
 
-<table>
-<caption><b>Table 1.</b> Planner behaviour on five 10×10 maps (A*, Manhattan heuristic). Every path
+<table data-page-node-id="4coPBeVgUPIEnSxyrGabDL">
+<caption data-page-node-id="xBn5YrBZ0O8RmAsbSeC3Al"><b data-page-node-id="8ZaA8EmE4CB8ZdLzMszhPw">Table 1.</b> Planner behaviour on five 10×10 maps (A*, Manhattan heuristic). Every path
 length equals the optimum found by an independent breadth-first search.</caption>
-<thead><tr><th>Map</th><th class="num">Path (cells)</th><th class="num">Steps</th>
-<th class="num">Nodes expanded</th><th class="num">Time (ms)</th></tr></thead>
-<tbody>
-<tr><td>Open grid</td><td class="num">15</td><td class="num">14</td><td class="num">63</td><td class="num">0.390</td></tr>
-<tr><td>Horizontal wall</td><td class="num">17</td><td class="num">16</td><td class="num">78</td><td class="num">0.411</td></tr>
-<tr><td>Vertical wall</td><td class="num">17</td><td class="num">16</td><td class="num">71</td><td class="num">0.452</td></tr>
-<tr><td>Serpentine maze</td><td class="num">17</td><td class="num">16</td><td class="num">65</td><td class="num">0.410</td></tr>
-<tr><td>Goal sealed off</td><td class="num">—</td><td class="num">—</td><td class="num">94</td><td class="num">0.595</td></tr>
+<thead data-page-node-id="biKXkNAGXKu1h2oNTI8ivo"><tr data-page-node-id="sAwYSOJj22yMSCHcGlyzOD"><th data-page-node-id="PXZxfwz5lpsrYcdvmBnhdX">Map</th><th class="num" data-page-node-id="9CvrdEHeLVHGnIUeQMWKCf">Path (cells)</th><th class="num" data-page-node-id="AMjH2sp1G0VxCPm20IaBAA">Steps</th>
+<th class="num" data-page-node-id="E0DDA8n2sLfPRIzdN10ZIR">Nodes expanded</th><th class="num" data-page-node-id="idrCNqQS0oY7xpw85G7JHi">Time (ms)</th></tr></thead>
+<tbody data-page-node-id="cAPs7xWJQOroGNtrCp4Scp">
+<tr data-page-node-id="d9GeYsL0ElF0SNGm4hT6sQ"><td data-page-node-id="Sx0J25GEcp9uJJH2EGaSA5">Open grid</td><td class="num" data-page-node-id="1HGsOFDHM2jBwgoLGkgyAN">15</td><td class="num" data-page-node-id="M0nEIfE4LtAbCXTfbfGqRa">14</td><td class="num" data-page-node-id="MNscSresW9HQsVux7JlHIB">63</td><td class="num" data-page-node-id="NPsgQ8mRwFdiDsBN09ozeT">0.390</td></tr>
+<tr data-page-node-id="p9lP45bB6woisTUH1b3sqb"><td data-page-node-id="Mcl7wtrhkTA8Ad6EXcxcNv">Horizontal wall</td><td class="num" data-page-node-id="Vo7YeaTKCAQeBPO3zvsq5x">17</td><td class="num" data-page-node-id="PNzNiOW9OwrkWJarHjOGbq">16</td><td class="num" data-page-node-id="PlBQinB6FtD5rNMMiFerWp">78</td><td class="num" data-page-node-id="3PQO4THs0m4XZ1T9fUaSqO">0.411</td></tr>
+<tr data-page-node-id="rUp0zS2jx2VWPpaHCk38Rr"><td data-page-node-id="PWnIe7QnoAHYELDfIgd8F6">Vertical wall</td><td class="num" data-page-node-id="Oe40B0Hor5eTVYVpDBYU6d">17</td><td class="num" data-page-node-id="nfBpchXir5haXIN9xWB3lm">16</td><td class="num" data-page-node-id="8PwcCi6UbBGGk9Nnw6AxW6">71</td><td class="num" data-page-node-id="3MTST4be3RnDze63G6Iznr">0.452</td></tr>
+<tr data-page-node-id="xAZdqYMC3juMIiG4JPPxfZ"><td data-page-node-id="fp2bcGOug1Kw6uOGtiSYIP">Serpentine maze</td><td class="num" data-page-node-id="3eFCRucjXfad8WU3tlMlyF">17</td><td class="num" data-page-node-id="BUNZaHzd0yvECs7qfJzePL">16</td><td class="num" data-page-node-id="fZtHLpQH6eRCGpyA170ZSu">65</td><td class="num" data-page-node-id="CfI0QF7xQ06cN9XqjSAG8s">0.410</td></tr>
+<tr data-page-node-id="WNdBZJuiottu387YSbllF2"><td data-page-node-id="RoGQbeYch0SXXtBfr3cKqz">Goal sealed off</td><td class="num" data-page-node-id="2ByauaeEASQda8zJ405RKb">—</td><td class="num" data-page-node-id="PCRsetPajs8mZy0G4GYYFK">—</td><td class="num" data-page-node-id="NEOG9vdVupZpeJjMqRwhql">94</td><td class="num" data-page-node-id="kPpA5z6wYIc8EndgjFTXSj">0.595</td></tr>
 </tbody>
 </table>
 
-<figure class="fig1">
-  <img src="report/figure1_run.png" style="width:100%">
-  <figcaption><b>Figure 1.</b> One complete run. Blue: the A* route. Red: the trajectory the
+<figure class="fig1" data-page-node-id="PQuTlSH0DTGbzWh7kNbOz2">
+  <img src="report/figure1_run.png" style="width:100%" data-page-node-id="McBsg1vgxBUinpBujvv1EQ">
+  <figcaption data-page-node-id="SOcBxSiDIP2jsui1nkise3"><b data-page-node-id="XCq0IFyjiUVfMTfxlUo7Qh">Figure 1.</b> One complete run. Blue: the A* route. Red: the trajectory the
   controller actually drove. The two coincide to within 0.09 m, and no cell of the wall is entered.</figcaption>
 </figure>
 
-<p><b>Heuristic choice.</b> Table 2 isolates the heuristic by running the same code with the weight
-<code>w</code> in <code>h</code> varied: <code>w = 0</code> degenerates to Dijkstra,
-<code>w = 1</code> is A*. On a 20×20 map with 25 % random obstacles the Manhattan heuristic reduces
-the expanded set from 250 to 130 nodes with no loss of optimality; pushing <code>w</code> to 5 halves
+<p data-page-node-id="Akt0PajoiK4HpBKBabxonm"><b data-page-node-id="JAUnXF5egJOQap6dkw0WX4">Heuristic choice.</b> Table 2 isolates the heuristic by running the same code with the weight
+<code data-page-node-id="lIOCqIbxv58E1BOHQUdlld">w</code> in <code data-page-node-id="phSVPgDTShua9cSp6ZY2UD">h</code> varied: <code data-page-node-id="tnDetV0CTaE84wLvLOXQV9">w = 0</code> degenerates to Dijkstra,
+<code data-page-node-id="vIwfqChHR02QzXrdOKhwUt">w = 1</code> is A*. On a 20×20 map with 25 % random obstacles the Manhattan heuristic reduces
+the expanded set from 250 to 130 nodes with no loss of optimality; pushing <code data-page-node-id="wxUS96B7Va6lIjWx9soH14">w</code> to 5 halves
 the work again but returns a 40-step path where 38 was available.</p>
 
-<table>
-<caption><b>Table 2.</b> Effect of the heuristic weight on the same 20×20 random map (25 % walls).</caption>
-<thead><tr><th>w</th><th>Search</th><th class="num">Path (steps)</th><th class="num">Nodes expanded</th><th class="num">Time (ms)</th></tr></thead>
-<tbody>
-<tr><td>0</td><td>Dijkstra</td><td class="num">38</td><td class="num">250</td><td class="num">1.410</td></tr>
-<tr><td>1</td><td>A* (optimal)</td><td class="num">38</td><td class="num">130</td><td class="num">0.682</td></tr>
-<tr><td>2</td><td>Weighted A*</td><td class="num">38</td><td class="num">46</td><td class="num">0.272</td></tr>
-<tr><td>5</td><td>Near-greedy</td><td class="num">40</td><td class="num">45</td><td class="num">0.331</td></tr>
+<table data-page-node-id="GeSOA3vA0VaMGZD7SiElYo">
+<caption data-page-node-id="dMJQzqvMQ3IrWORaOIDydB"><b data-page-node-id="ekG5ZriVq1YAo9I1otpURj">Table 2.</b> Effect of the heuristic weight on the same 20×20 random map (25 % walls).</caption>
+<thead data-page-node-id="7evlbYAT7PEBPEpgCyDBJa"><tr data-page-node-id="jZKNfuze7uhzICp6yXsBfZ"><th data-page-node-id="xgGjOBUxuIBhT5YHvSPi8G">w</th><th data-page-node-id="IINjsztD53ZYafW8zkp8z0">Search</th><th class="num" data-page-node-id="qdD3OnS4PRIjL2Vt4VRwBq">Path (steps)</th><th class="num" data-page-node-id="9uEtA2I6FfbUuypNt39B42">Nodes expanded</th><th class="num" data-page-node-id="cVhiV5wqxAIIXlsqtC6Uei">Time (ms)</th></tr></thead>
+<tbody data-page-node-id="teel0APaQUBJtIc8YzuE2g">
+<tr data-page-node-id="xhIkLS48Daw6XXgbvsUaPc"><td data-page-node-id="if9V1Zzgmntws23vt3Qci6">0</td><td data-page-node-id="sHlq51aTEFoIAHLScl7GOl">Dijkstra</td><td class="num" data-page-node-id="wD9Tn2xKipj5PxQNuQ3mPD">38</td><td class="num" data-page-node-id="lCrHj2hSu1c7THsCAR7flL">250</td><td class="num" data-page-node-id="DyNctELyxOn60g4hDBlSGH">1.410</td></tr>
+<tr data-page-node-id="NEhxgNGWVZLvNcvUGn1TKn"><td data-page-node-id="q8waNOIZTrKfDIsCIRjHDe">1</td><td data-page-node-id="h9GqEfY6IUNa78LMT0kXTf">A* (optimal)</td><td class="num" data-page-node-id="9mbWUFcMmVpiVtsMVJurEx">38</td><td class="num" data-page-node-id="O8tfDXHCHWyAr1CEr9tURO">130</td><td class="num" data-page-node-id="mPjK7tSV3pSeM4vJfSJqKG">0.682</td></tr>
+<tr data-page-node-id="vbWMcIyeWvpLNg9oK0GQ2q"><td data-page-node-id="SrYyDclrbhyI7ePwWpLCSB">2</td><td data-page-node-id="ZbGYi2sO8yQFn5OLuEw9iJ">Weighted A*</td><td class="num" data-page-node-id="xJdNGtyphQtfgq8cD2OP3Z">38</td><td class="num" data-page-node-id="bhBnEpYTZIpFpNe8Gea28G">46</td><td class="num" data-page-node-id="eWhkRUbGDNDfS55ATuDD74">0.272</td></tr>
+<tr data-page-node-id="mvGKz2NveUkf90VsKCIpQ4"><td data-page-node-id="FNpkFoaOGxGRHSt4j1kk5y">5</td><td data-page-node-id="cbQNGU1TQcD8euooHS7gLu">Near-greedy</td><td class="num" data-page-node-id="e1kjQ7XHuPYFSj7stjODjU">40</td><td class="num" data-page-node-id="FpPaW2zEMDsmXvKYMLHIoK">45</td><td class="num" data-page-node-id="1k8chYN4YOLFp3kqvGiXZK">0.331</td></tr>
 </tbody>
 </table>
 
-<p><b>Tracking accuracy.</b> The closed loop reaches the goal in 32.00 s, travelling 16.00 m against
+<p data-page-node-id="5Ay3O6sJyJPdnNGmp54RI8"><b data-page-node-id="CHqDbuNmhXs65yjyHNSWo3">Tracking accuracy.</b> The closed loop reaches the goal in 32.00 s, travelling 16.00 m against
 a planned 16.00 m, with an end-point error of 0.039 m. Cross-track error, measured as the distance
 from each trajectory sample to the planned polyline, peaks at 0.090 m and averages 0.013 m; the
 largest deviations occur at the two 90° corners, where the robot cuts the turn.</p>
 
-<p>Table 3 contains a result worth separating from the usual accuracy/speed trade-off. Between
-<code>tol</code> = 0.02 and 0.15 the maximum cross-track error does not move at all — it stays at
+<p data-page-node-id="BZfA6PZroMH8oZTrEEk0pl">Table 3 contains a result worth separating from the usual accuracy/speed trade-off. Between
+<code data-page-node-id="urXwhtNEsDDXdAqd2i4TEK">tol</code> = 0.02 and 0.15 the maximum cross-track error does not move at all — it stays at
 0.0895 m — while the end-point error grows by a factor of ten. The peak lateral deviation is
 therefore fixed by the corner geometry, not by the tolerance: the controller cuts each 90° turn by
-roughly the same amount however early it accepts a waypoint. What <code>tol</code> actually changes is
+roughly the same amount however early it accepts a waypoint. What <code data-page-node-id="jI6BecbWTG9DFP8hk03uwx">tol</code> actually changes is
 how soon the robot turns towards the next waypoint, and that shows up as distance saved (16.13 →
 15.50 m) rather than as lateral drift. Reading the two error columns together is what makes this
 visible; either one alone would have suggested a simple trade-off.</p>
 
-<table>
-<caption><b>Table 3.</b> Sensitivity to the waypoint tolerance <code>tol</code> (speed 0.5 m/s,
-K<sub>p</sub> = 5). Loosening the tolerance buys time and distance but costs accuracy.</caption>
-<thead><tr><th>tol (m)</th><th class="num">Time (s)</th><th class="num">Distance (m)</th>
-<th class="num">End error (m)</th><th class="num">Max cross-track (m)</th></tr></thead>
-<tbody>
-<tr><td>0.02</td><td class="num">32.25</td><td class="num">16.13</td><td class="num">0.015</td><td class="num">0.0895</td></tr>
-<tr><td>0.05</td><td class="num">32.00</td><td class="num">16.00</td><td class="num">0.039</td><td class="num">0.0895</td></tr>
-<tr><td>0.15</td><td class="num">31.00</td><td class="num">15.50</td><td class="num">0.144</td><td class="num">0.0895</td></tr>
-<tr><td>0.30</td><td class="num">29.80</td><td class="num">14.90</td><td class="num">0.289</td><td class="num">0.1596</td></tr>
+<table data-page-node-id="CVHF3cNGp6fNqh1TGginES">
+<caption data-page-node-id="G3h88y0b5EqfJbtKqKldNJ"><b data-page-node-id="H2J8iZ8spbyEcwzjZbBW3T">Table 3.</b> Sensitivity to the waypoint tolerance <code data-page-node-id="vWfE4D3cqByGBUZ6IBbcyy">tol</code> (speed 0.5 m/s,
+K<sub data-page-node-id="QJyRkoFmOiLM80mSWEspi5">p</sub> = 5). Loosening the tolerance buys time and distance but costs accuracy.</caption>
+<thead data-page-node-id="BNNR7Wzu45CSvFvZlOE0er"><tr data-page-node-id="BDWuh43QA6BdZgNyq4Z0rf"><th data-page-node-id="cm3mF6u1eQUeF7FbZn5cFq">tol (m)</th><th class="num" data-page-node-id="QRAnKgskZFPshFHjGZatBt">Time (s)</th><th class="num" data-page-node-id="suAQBvC2HILsi4vpANU34C">Distance (m)</th>
+<th class="num" data-page-node-id="1X9YHdL7f1C5JuV7veXd1x">End error (m)</th><th class="num" data-page-node-id="EjIkN3OhkDnhpKZq1tdr3M">Max cross-track (m)</th></tr></thead>
+<tbody data-page-node-id="1DhUwqSaQTiqO8A8m1XKKg">
+<tr data-page-node-id="d0wxxpCx3cAf0rDRBB8Pga"><td data-page-node-id="JcRsKBTqoYJcbPtVyp63FO">0.02</td><td class="num" data-page-node-id="tQPwiSd1mnsabJ2kMm4q6Q">32.25</td><td class="num" data-page-node-id="tMiKOnlpCgB7InRaBNHgCP">16.13</td><td class="num" data-page-node-id="nUygxN2G1n9NuR8yS8VAle">0.015</td><td class="num" data-page-node-id="2Ff80i047sf8l1kfl1XgUa">0.0895</td></tr>
+<tr data-page-node-id="3WWZoX4GBSuoyGn7xm024u"><td data-page-node-id="q9T5LcQpk3lQvZrErNHUbe">0.05</td><td class="num" data-page-node-id="HcveQ9nf7mG6jlzFOwSNTw">32.00</td><td class="num" data-page-node-id="24b8CbOnDvlTKc0qLXr5J3">16.00</td><td class="num" data-page-node-id="a94AyKguWK0V5tGxgNZkBr">0.039</td><td class="num" data-page-node-id="EMqdSwP7NQuVMnPCP2qepC">0.0895</td></tr>
+<tr data-page-node-id="AdQPhKYFYm85A2wQHsFOrF"><td data-page-node-id="IBBoUB8QgTe0GZTynru8fj">0.15</td><td class="num" data-page-node-id="7moO5dGMdxOVb0Gin4dg5x">31.00</td><td class="num" data-page-node-id="Vi5vgruObYUPWerKEGpihH">15.50</td><td class="num" data-page-node-id="wlQTQasleAEzUbYrLXJ9XE">0.144</td><td class="num" data-page-node-id="XW38eV1evrlj5VGZ0jF50y">0.0895</td></tr>
+<tr data-page-node-id="j7fSri9ntHIuAYzcvNsqHk"><td data-page-node-id="EylPUeLTWo5Grbi52VJkA0">0.30</td><td class="num" data-page-node-id="MjkCyhFnqFgXCc8abv3vaS">29.80</td><td class="num" data-page-node-id="oUkM7YXy0BcV5MKpGx6Puz">14.90</td><td class="num" data-page-node-id="yaFuS7FzVQTOlGy9labG5d">0.289</td><td class="num" data-page-node-id="CfTN0ezYwbv12ku5s54tId">0.1596</td></tr>
 </tbody>
 </table>
 
-<figure>
-  <img src="report/figure2_sensitivity.png" style="width:100%">
-  <figcaption><b>Figure 2.</b> Each controller parameter swept in isolation. Raising the heading gain
-  from K<sub>p</sub> = 5 to 12 cuts maximum cross-track error from 0.090 m to 0.023 m at essentially no
+<figure data-page-node-id="7MnCm5VgbNmnP04bCRYgYR">
+  <img src="report/figure2_sensitivity.png" style="width:100%" data-page-node-id="xQgTr05kfyuXV5Kyvx6OoN">
+  <figcaption data-page-node-id="4nvgABGBWwBhXKRYMXPEiZ"><b data-page-node-id="ZOAFhgUMqgmCbNjW9I933i">Figure 2.</b> Each controller parameter swept in isolation. Raising the heading gain
+  from K<sub data-page-node-id="IqJGKgUm0pAkELheWhDhtI">p</sub> = 5 to 12 cuts maximum cross-track error from 0.090 m to 0.023 m at essentially no
   time cost (32.00 → 31.75 s). Speed trades accuracy for time directly: 0.5 → 1.5 m/s shortens the run
   from 32.0 s to 11.2 s but triples the cross-track error to 0.283 m.</figcaption>
 </figure>
 
-<h2>5. Limitations</h2>
-<ul>
-<li><b>Discrete planning.</b> A four-connected grid produces 90° corners and one-cell clearance; the
+<h2 data-page-node-id="mYm1FV50CmycHC3gRn1Fg3">5. Limitations</h2>
+<ul data-page-node-id="hm1X3VVBCj9F4RjKTmAq0u">
+<li data-page-node-id="G3ca4OGYTJBkoCXXyTeIPP"><b data-page-node-id="jvosavX57cXrxrchIZow55">Discrete planning.</b> A four-connected grid produces 90° corners and one-cell clearance; the
 robot footprint is ignored, so trajectories are not physically smooth.</li>
-<li><b>No replanning, ideal state estimation.</b> The controller follows the route it was given and
+<li data-page-node-id="nP2qj6M9d6RbjFRBb1YQbz"><b data-page-node-id="Gmaa7IE2bdtfLzr3AxBiXa">No replanning, ideal state estimation.</b> The controller follows the route it was given and
 cannot detect obstacles that appear afterwards; pose is assumed known exactly, with no noise or
 sensor model.</li>
-<li><b>Correctness depends on the tracker.</b> The path is certified collision-free only if the
+<li data-page-node-id="jsayoAuCPEajQ5ehuWTRL3"><b data-page-node-id="JdLlQqDS24W4uGd1zeRGd1">Correctness depends on the tracker.</b> The path is certified collision-free only if the
 waypoint index advances one at a time. Advancing by two cuts a corner and enters the wall — measured,
 not hypothesised.</li>
-<li><b>Single machine, single map family.</b> Runtimes come from one laptop; weighted terrain,
+<li data-page-node-id="CqeECggKsz9ZWDhTghfxDn"><b data-page-node-id="I18SvMTV64B3KeYUX0a7g3">Single machine, single map family.</b> Runtimes come from one laptop; weighted terrain,
 larger maps and diagonal motion are untested.</li>
 </ul>
 
-<h2>6. Conclusion</h2>
-<p>A planner, a controller and a viewer, each written by hand and each measured, form a closed
+<h2 data-page-node-id="whWBhEU9NGG4yh9ukO5x5P">6. Conclusion</h2>
+<p data-page-node-id="SDCK5cbD6IBmgoC0kpIYOg">A planner, a controller and a viewer, each written by hand and each measured, form a closed
 navigation loop whose behaviour is understood end to end. The measurements show that a Manhattan
 heuristic halves the search on the tested maps without sacrificing optimality, that proportional
 heading control tracks the planned route to within nine centimetres, and that both defects found
 along the way were invisible until the numbers were inspected. Natural next steps: a sampling-based
 planner on identical maps, and a true differential-drive model with wheel-level commands.</p>
 
-<h2>References</h2>
-<ol class="refs">
-<li>P. E. Hart, N. J. Nilsson, and B. Raphael. A formal basis for the heuristic determination of
-minimum cost paths. <i>IEEE Transactions on Systems Science and Cybernetics</i>, 4(2):100–107, 1968.</li>
-<li>S. M. LaValle. <i>Planning Algorithms</i>. Cambridge University Press, 2006. (Ch. 2 on discrete
+<h2 data-page-node-id="dxtTXcX9IRj5WJYr3Ebav7">References</h2>
+<ol class="refs" data-page-node-id="yUiHirWpNBJglFlQnIyisl">
+<li data-page-node-id="kKb6xBDeHfatUW9E1nI05K">P. E. Hart, N. J. Nilsson, and B. Raphael. A formal basis for the heuristic determination of
+minimum cost paths. <i data-page-node-id="RVK59sLMrFPJ4PWn6OXJ92">IEEE Transactions on Systems Science and Cybernetics</i>, 4(2):100–107, 1968.</li>
+<li data-page-node-id="QkCoBI7uhxyRFBGucN6nka">S. M. LaValle. <i data-page-node-id="7suKBGXi4U2b7jjlOGZPVs">Planning Algorithms</i>. Cambridge University Press, 2006. (Ch. 2 on discrete
 planning; Ch. 8 on feedback control.)</li>
-<li>Pygame and Pillow documentation — 2D rendering, event loop, and GIF composition.</li>
+<li data-page-node-id="8CaJCFPYW7dIy01ZVw9q8i">Pygame and Pillow documentation — 2D rendering, event loop, and GIF composition.</li>
 </ol>
 
 </body>
