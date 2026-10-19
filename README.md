@@ -55,7 +55,7 @@ The robot is not teleoperated and nothing is scripted: the program computes a co
 | `tools/benchmark.py` | Planner benchmark: path length, nodes expanded, runtime, success rate, heuristic comparison, plus a BFS ground-truth check. |
 | `tools/pid_tuning.py` | Turns four PID parameter sets into measurable metrics (error, overshoot, rise/settling time). |
 | `tools/tracking_metrics.py` | Closed-loop benchmark: plans, drives, then measures time / distance / end-point error / cross-track error, and sweeps `tol`, `speed` and `Kp` one at a time. Also writes `docs/tracking_sensitivity.png`. |
-| `docs/` | `demo.gif` (one recorded run, shown at the top) and `tracking_sensitivity.png` (the parameter sweeps). |
+| `docs/` | `demo.gif` (one recorded run, shown at the top), `tracking_sensitivity.png` (the parameter sweeps), and `report/` — the 2-page technical report (`report.pdf`, with `report.html` as its source and the figures it embeds). |
 | `requirements.txt`, `LICENSE`, `README.md` | Environment, licence, documentation. |
 
 > The dependency direction is one-way: `grid` ← `planner` ← `simulation` → `viewer`, and `controller` depends on nothing but NumPy. Swapping the planner (e.g. adding RRT) would not touch any other module. `practice/` keeps the original day-by-day files as a record of how the code was built; `src/` is the consolidated implementation.
@@ -315,7 +315,7 @@ Open:
 - [ ] Path smoothing / shortcutting for smoother tracking, with the effect measured
 - [ ] Model the robot as a true differential drive (wheel speeds, non-holonomic constraint) instead of the current unicycle model
 - [ ] Automated tests instead of print-based checks
-- [ ] A short technical report: assumptions, parameter choices, limitations
+- [x] **Technical report**: a 2-page English PDF (`docs/report/report.pdf`) — problem, methods, the three measurement tables, both figures, limitations and references — regenerated from `report.html` with headless Chrome (Day 16 · 19 Oct)
 
 ## Limitations
 
