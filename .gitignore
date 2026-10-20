@@ -9,3 +9,7 @@ __pycache__/
 
 # D14 录制时产生的中间帧（只提交合成好的 demo.gif）
 docs/frames/
+
+# D17 Kaggle 比赛数据（约 100 MB，只本地用，绝不入库）
+data/
+submission*.csv
