@@ -19,6 +19,7 @@ from pathlib import Path
 
 import pandas as pd
 from sklearn.linear_model import LogisticRegression
+from sklearn.ensemble import HistGradientBoostingClassifier
 from sklearn.model_selection import cross_val_score
 from sklearn.pipeline import make_pipeline
 from sklearn.preprocessing import StandardScaler
@@ -69,7 +70,7 @@ X_test = X_test.fillna(med)
 # ── 4. 交叉验证 ──────────────────────────────────────────
 # 把训练集切成 5 份，轮流用 4 份训练、1 份验证
 # 这样做是为了拿到一个"没见过的数据上"的分数——这才是你真实水平的估计
-model = make_pipeline(StandardScaler(), LogisticRegression(max_iter=1000))
+model = HistGradientBoostingClassifier(max_iter=200, random_state=0)
 
 scores = cross_val_score(model, X, y, cv=5, scoring="roc_auc")    # ③
 print(f"CV AUC = {scores.mean():.4f} ± {scores.std():.4f}")
